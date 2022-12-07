@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FilmesAPI.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class CinemaController : ControllerBase
     {
@@ -25,15 +25,17 @@ namespace FilmesAPI.Controllers
             _context.Cinemas.Add(cinema);
             _context.SaveChanges();
 
-            return CreatedAtAction(nameof(RecuperaCinemaPorId), new {Id=cinema.Id},cinema);
+            return Ok();
+
+            //return CreatedAtAction(nameof(RecuperaCinemaPorId), new {Id=cinema.Id},cinema);
             
         }
 
         [HttpGet]
-        public IActionResult RecuperaCinema()
+        public IEnumerable<Cinema> RecuperaCinema()
         {
-            var cinemaEntity = _context.Cinemas;
-            return Ok(_mapper.Map<ReadCinemaDto>(cinemaEntity));
+            
+            return _context.Cinemas;
         }
 
         [HttpGet("{id}")]
